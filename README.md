@@ -16,18 +16,23 @@ npm install magister-api
 Use the package in Node:
 
 ```javascript
-const { default: Magister } = require('magister-api')
-const magister = new Magister('schoolName', 'username', 'password')
+const { default: Magister, findSchool} = require('magister-api')
 
-magister.authenticate()
-  .then(session => {
-    session.getProfileInfo()
-      .then(info => {
-        console.log('Yay, this is me:', info)
+findSchool("school").then(school => {
+    const magister = new Magister(school[2].Url, 'username', 'password')
+
+    magister.authenticate()
+      .then(session => {
+        session.getProfileInfo()
+          .then(info => {
+            console.log('Yay, this is me:', info)
+          })
+      }).catch(error => {
+        throw new Error(error)
       })
-  }).catch(error => {
-    throw new Error(error)
-  })
+
+})
+
 ```
 
 ## Documentation
